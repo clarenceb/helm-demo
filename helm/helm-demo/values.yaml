@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: <your-acr>.azurecr.io/helm-demo-app
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 

@@ -151,12 +151,44 @@ kill %1
 kill %2
 ```
 
-TODO
-----
+Publish Helm Chart to ACR
+-------------------------
 
-* Create Helm chart
-* Explore different parts of the helm chart
-* Go templates
-* Deploy to AKS with Helm
+```sh
+cd helm/
+helm package .
+
+# Authenticate with your individual Microsoft Entra identity to push and pull Helm charts using an AD token.
+USER_NAME="00000000-0000-0000-0000-000000000000"
+PASSWORD=$(az acr login --name $ACR_NAME --expose-token --output tsv --query accessToken)
+
+# Login to ACR using Helm
+helm registry login $ACR_NAME.azurecr.io \
+  --username $USER_NAME \
+  --password $PASSWORD
+
+# Push the Helm chart to ACR
+helm push helm-demo-0.1.0.tgz oci://$ACR_NAME.azurecr.io/helm
+
+az acr repository show \
+  --name $ACR_NAME \
+  --repository helm/helm-demo
+
+az acr manifest list-metadata \
+  --registry $ACR_NAME \
+  --name helm/helm-demo
+```
+
+Install the Helm Chart from ACR to AKS
+--------------------------------------
+
+```sh
+helm install myhelmtest oci://$ACR_NAME.azurecr.io/helm/hello-world --version 0.1.0
+
+helm get manifest myhelmtest
+helm search repo myregistry
+```
+
+TODO:
 * Investigate helm options - values, rollback, info, show values, etc.
 * Create GH Action to deploy each version of the app to AKS with Helm
