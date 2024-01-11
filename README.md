@@ -183,12 +183,28 @@ Install the Helm Chart from ACR to AKS
 --------------------------------------
 
 ```sh
-helm install myhelmtest oci://$ACR_NAME.azurecr.io/helm/hello-world --version 0.1.0
+helm upgrade --install helm-demo oci://$ACR_NAME.azurecr.io/helm/helm-demo --version 0.1.0 --set image.repository=$ACR_NAME.azurecr.io/helm-demo-app
 
-helm get manifest myhelmtest
-helm search repo myregistry
+helm get manifest helm-demo
+
+helm upgrade --install helm-demo oci://$ACR_NAME.azurecr.io/helm/helm-demo --version 0.1.0 --set image.repository=$ACR_NAME.azurecr.io/helm-demo-app --set app.jokeCategory=sport
+
+helm get values helm-demo
 ```
 
-TODO:
-* Investigate helm options - values, rollback, info, show values, etc.
-* Create GH Action to deploy each version of the app to AKS with Helm
+Rolback to previous version
+---------------------------
+
+```sh
+helm ls
+helm rollback helm-demo 0
+```
+
+Cleanup
+-------
+
+```sh
+helm del helm-demo
+helm del helm-demo -n tenant1
+helm del helm-demo -n tenant2
+```
