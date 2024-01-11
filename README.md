@@ -151,6 +151,16 @@ kill %1
 kill %2
 ```
 
+Debugging helm templates
+------------------------
+
+```sh
+cd helm/helm-demo
+# Pass any values you want to override or add any Go template functions you want to use
+# You can comment out any problematic lines in the template and see the result as comments in the output
+helm template --debug helm-demo .
+```
+
 Publish Helm Chart to ACR
 -------------------------
 
