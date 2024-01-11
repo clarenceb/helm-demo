@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chuck Norris Jokes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body class="<%= bgColor || 'bg-light' %> text-center d-flex align-items-center vh-100">
+    <div class="container">
+        <h1 class="display-4 mb-5">Chuck Norris Jokes</h1>
+        <h3 class="mb-5">Namespace: <%= namespace || 'default' %></h3>
+        <h3 class="mb-5">Joke Category: <%= jokeCategory || 'dev' %></h3>
+        <button id="jokeButton" class="btn btn-primary btn-lg mb-5">Get Joke</button>
+        <p id="joke" class="lead quote"></p>
+        <div id="spinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <script>
+        $('#jokeButton').click(function() {
+            $('#spinner').show();
+            $.get('/joke', function(joke) {
+                $('#joke').text(joke);
+                $('#spinner').hide();
+            });
+        });
+    </script>
+</body>
+</html>
