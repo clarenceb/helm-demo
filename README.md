@@ -120,7 +120,7 @@ kubectl get pod,deployment,svc,ingress
 kubectl port-forward svc/helm-demo 8080:80
 ```
 
-Access the site via: http://localhost:8008
+Access the site via: http://localhost:8080
 
 Now deploy 2 instances of the app to different namespaces:
 
